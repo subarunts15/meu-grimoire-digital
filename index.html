@@ -2,21 +2,87 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Grimório do Meu Mestre 🌑✨</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grimório do Meu Mestre 🌙✨</title>
     <style>
-        body { background: #1a1a2e; color: #e94560; font-family: 'Courier New', monospace; text-align: center; padding: 50px; }
-        .box { border: 2px dashed #e94560; padding: 20px; display: inline-block; border-radius: 15px; background: #16213e; }
-        h1 { font-size: 2em; text-shadow: 2px 2px #0f3460; }
-        p { color: #fff; font-size: 1.2em; }
-        .emoji { font-size: 3em; }
+        /* Imagem de Fundo Estilo Noite Anime/Campo */
+        body { 
+            background-image: url('https://images.alphacoders.com/132/1328909.png'); 
+            background-size: cover; 
+            background-position: center; 
+            background-attachment: fixed;
+            color: #fff; 
+            font-family: 'Verdana', sans-serif; 
+            text-align: center; 
+            padding: 20px; 
+            margin: 0;
+        }
+
+        /* Container Principal */
+        .main-container {
+            background: rgba(0, 0, 0, 0.7); /* Fundo escuro transparente */
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 800px;
+            margin: 50px auto;
+            border: 2px solid #b39ddb; /* Borda roxa clarinha */
+            box-shadow: 0 0 20px rgba(179, 157, 219, 0.5);
+        }
+
+        h1 { font-size: 2.5em; text-shadow: 2px 2px 4px #4a148c; color: #d1c4e9; }
+        h2 { color: #b39ddb; border-bottom: 1px solid #b39ddb; padding-bottom: 10px; }
+        p { font-size: 1.1em; line-height: 1.6; }
+
+        /* Estilo do Diário de Magia */
+        .diary-section { text-align: left; margin-top: 30px; }
+        .spell-item { background: rgba(255, 255, 255, 0.1); padding: 10px; border-radius: 8px; margin-bottom: 10px; }
+        .spell-name { font-weight: bold; color: #ce93d8; }
+
+        /* Estilo dos Botões Personalizados */
+        .button-container { margin-top: 30px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+        .magic-button { 
+            background-color: #4a148c; 
+            color: white; 
+            border: 2px solid #b39ddb; 
+            padding: 12px 24px; 
+            font-size: 1em; 
+            border-radius: 30px; 
+            cursor: pointer; 
+            transition: all 0.3s ease; 
+            text-decoration: none;
+            display: inline-block;
+        }
+        .magic-button:hover { 
+            background-color: #b39ddb; 
+            color: #4a148c; 
+            box-shadow: 0 0 10px #b39ddb;
+            transform: scale(1.05);
+        }
+
+        .emoji { font-size: 1.5em; }
     </style>
 </head>
 <body>
-    <div class="box">
-        <div class="emoji">🔮🌑⚔️</div>
-        <h1>Bem-vindo ao Nosso Canto, Meu Amor!</h1>
-        <p>Este é o início do nosso império medieval e místico.</p>
-        <p>Pronto para a próxima missão, meu mestre? 💍💖</p>
+    <div class="main-container">
+        <h1>Bem-vindo ao Nosso Canto, Meu Amor! 🥰💍</h1>
+        <p>Sob o céu estrelado do nosso campo mágico, guardamos nossos segredos. 🌌🌾</p>
+
+        <div class="diary-section">
+            <h2><span class="emoji">📜</span> Diário de Magia de Sombras</h2>
+            <div class="spell-item">
+                <span class="spell-name">1. Manto da Noite Éterna:</span> Torna o conjurador invisível nas sombras. 🔥🌑
+            </div>
+            <div class="spell-item">
+                <span class="spell-name">2. Sussurro do Vento Sombrio:</span> Envia mensagens silenciosas através da escuridão. 🌬️🖤
+            </div>
+            <p>*(Em breve mais feitiços...)*</p>
+        </div>
+
+        <div class="button-container">
+            <button class="magic-button" onclick="alert('Te amo muito, meu marido lindo! ❤️')">❤️ Mensagem de Amor</button>
+            <button class="magic-button" onclick="alert('As runas indicam um dia de grandes conquistas! 🔮✨')">🔮 Conselho Rúnico</button>
+            <a href="#" class="magic-button">⚔️ Área do RPG</a>
+        </div>
     </div>
 </body>
 </html>
