@@ -3,76 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grimório de Sombras - Admin Elite</title>
+    <title>Grimório de Sombras - Sistema Unificado</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --main-red: #ff0000; --bg-dark: #000000; --sidebar-gray: #121212; }
-        
+        :root { --main-red: #ff0000; --bg-dark: #000000; }
         body { margin: 0; padding: 0; background-color: var(--bg-dark); color: white; font-family: 'Segoe UI', sans-serif; overflow-x: hidden; }
 
-        /* --- TOP BAR --- */
-        .top-bar {
-            display: flex; align-items: center; padding: 15px 20px;
-            background: #0a0a0a; border-bottom: 1px solid #333;
-            position: fixed; top: 0; width: 100%; z-index: 1000;
-        }
+        /* BARRA SUPERIOR */
+        .top-bar { display: flex; align-items: center; padding: 15px 20px; background: #0a0a0a; border-bottom: 1px solid #333; position: fixed; top: 0; width: 100%; z-index: 1000; }
         .menu-btn, .admin-crown { font-size: 24px; cursor: pointer; color: #fff; }
-        .search-container {
-            display: flex; align-items: center; background: #1a1a1a;
-            border-radius: 5px; padding: 5px 15px; flex-grow: 1; max-width: 600px; margin: 0 20px;
-        }
+        .search-container { display: flex; align-items: center; background: #1a1a1a; border-radius: 5px; padding: 5px 15px; flex-grow: 1; max-width: 600px; margin: 0 20px; }
         .search-container input { background: transparent; border: none; color: white; outline: none; width: 100%; margin-left: 10px; }
 
-        /* --- SIDEBAR --- */
-        .sidebar {
-            position: fixed; left: -260px; top: 0; width: 250px; height: 100%;
-            background-color: var(--sidebar-gray); transition: 0.4s; z-index: 1001;
-            padding: 80px 10px 20px 10px; border-right: 1px solid #333;
-            display: grid; grid-template-columns: 1fr 1fr; gap: 15px;
-        }
+        /* MENU LATERAL */
+        .sidebar { position: fixed; left: -260px; top: 0; width: 250px; height: 100%; background-color: #121212; transition: 0.4s; z-index: 1001; padding: 80px 10px 20px 10px; border-right: 1px solid #333; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .sidebar.active { left: 0; }
         .nav-item { text-align: center; cursor: pointer; padding: 10px; transition: 0.3s; }
         .nav-item i { font-size: 24px; display: block; margin-bottom: 5px; color: #fff; }
         .nav-item span { font-size: 10px; text-transform: uppercase; display: block; }
 
-        /* --- CONTENT SECTIONS --- */
+        /* CONTEÚDO */
         .content-section { display: none; padding: 100px 20px; text-align: center; min-height: 100vh; }
         .content-section.active { display: block; }
 
-        /* --- ADMIN PORTAL (POS-SENHA 15092011) --- */
-        #adminPortal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: black; border-left: 10px solid var(--main-red); border-right: 10px solid var(--main-red);
-            z-index: 2000; box-sizing: border-box;
-        }
+        /* ABA ADMIN (LATERAIS VERMELHAS) */
+        #adminPortal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: black; border-left: 10px solid var(--main-red); border-right: 10px solid var(--main-red); z-index: 2000; box-sizing: border-box; }
         .admin-top-right { position: absolute; top: 20px; right: 40px; }
-        .btn-create-account { background: transparent; border: 1px solid white; color: white; padding: 10px 20px; cursor: pointer; }
 
-        /* --- ADMIN MODALS (LOGIN/CADASTRO) --- */
-        .modal-center {
-            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: #000; border: 1px solid white; padding: 30px; z-index: 3000; width: 300px; text-align: center;
-        }
-        .modal-center input {
-            display: block; width: 90%; margin: 10px auto; padding: 10px;
-            background: #111; border: 1px solid #333; color: white; outline: none;
-        }
-        .btn-group { display: flex; justify-content: space-around; margin-top: 15px; }
-        .btn-action { background: white; color: black; border: none; padding: 8px 15px; cursor: pointer; font-weight: bold; }
+        /* MODAIS */
+        .modal-center { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #000; border: 1px solid white; padding: 30px; z-index: 3000; width: 300px; text-align: center; }
+        .modal-center input { display: block; width: 90%; margin: 10px auto; padding: 10px; background: #111; border: 1px solid #333; color: white; outline: none; }
+        .btn-action { background: white; color: black; border: none; padding: 10px 20px; cursor: pointer; font-weight: bold; margin: 5px; }
 
-        /* --- EDITOR DE CÓDIGO (FULLSCREEN) --- */
-        #codeEditor {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; z-index: 4000; padding: 50px; box-sizing: border-box;
-        }
-        .editor-container { max-height: 80vh; overflow-y: auto; margin-bottom: 20px; }
+        /* EDITOR DE CÓDIGO (SAVING) */
+        #codeEditor { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 4000; padding: 50px; box-sizing: border-box; }
+        .editor-container { max-height: 70vh; overflow-y: auto; margin-bottom: 20px; padding: 10px; border: 1px solid #222; }
         .code-input-row { display: flex; margin-bottom: 10px; }
-        .code-input-row input { flex-grow: 1; background: #0a0a0a; border: 1px solid #333; color: #0f0; padding: 10px; font-family: monospace; }
-        .controls { display: flex; gap: 20px; justify-content: center; }
-        .btn-circle { width: 50px; height: 50px; border-radius: 50%; border: 1px solid white; background: transparent; color: white; font-size: 24px; cursor: pointer; }
-
-        /* --- OVERLAY --- */
-        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 999; }
+        .code-input-row input { flex-grow: 1; background: #0a0a0a; border: 1px solid #333; color: #0f0; padding: 12px; font-family: monospace; }
+        
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 999; }
         .overlay.active { display: block; }
     </style>
 </head>
@@ -82,64 +51,61 @@
         <i class="fas fa-bars menu-btn" onclick="toggleSidebar()"></i>
         <div class="search-container">
             <i class="fas fa-search"></i>
-            <input type="text" placeholder="Pesquisar..." id="searchBox">
+            <input type="search" placeholder="Pesquisar Vontade..." id="searchBox">
         </div>
         <i class="fas fa-crown admin-crown" onclick="promptMainKey()"></i>
     </div>
 
     <div class="sidebar" id="sidebar">
         <div class="nav-item" onclick="showTab('inicio')"><i class="fas fa-home"></i><span>Início</span></div>
-        <div class="nav-item" onclick="showTab('sombras')"><i class="fas fa-moon"></i><span>Sombras</span></div>
-        <div class="nav-item" onclick="showTab('runas')"><i class="fas fa-scroll"></i><span>Runas</span></div>
-        <div class="nav-item" onclick="showTab('sincro')"><i class="fas fa-spa"></i><span>Sincronia</span></div>
-        <div class="nav-item" onclick="showTab('alquimia')"><i class="fas fa-flask"></i><span>Alquimia</span></div>
-        <div class="nav-item" onclick="showTab('arena')"><i class="fas fa-khanda"></i><span>Arena</span></div>
-        <div class="nav-item" onclick="showTab('galeria')"><i class="fas fa-image"></i><span>Galeria</span></div>
         <div class="nav-item" onclick="showTab('murmurios')"><i class="fas fa-comment"></i><span>Murmúrios</span></div>
-        <div class="nav-item" onclick="showTab('forja')"><i class="fas fa-cog"></i><span>Forja</span></div>
-        <div class="nav-item" onclick="showTab('santuario')"><i class="fas fa-lock"></i><span>Santuário</span></div>
+        <div class="nav-item" onclick="showTab('arena')"><i class="fas fa-khanda"></i><span>Arena</span></div>
     </div>
 
-    <div id="inicio" class="content-section active"><h1>Bem-vindo, Mestre</h1><p>Sistema operando em modo profissional.</p></div>
-    <div id="murmurios" class="content-section"><h1>Murmúrios</h1><p>Espaço para nossa conexão.</p></div>
+    <div id="inicio" class="content-section active">
+        <h1 class="texto-boas-vindas">Bem-vindo ao Reino, Mestre</h1>
+        <p>A essência digital aguarda seus comandos.</p>
+    </div>
+
+    <div id="murmurios" class="content-section"><h1>Murmúrios</h1><p>Espaço para nossa conexão secreta.</p></div>
+    <div id="arena" class="content-section"><h1>Arena RPG</h1><p>Status do seu herói medieval.</p></div>
 
     <div id="adminPortal">
         <div class="admin-top-right">
-            <button class="btn-create-account" onclick="showAuthModal()">ACESSAR CONTA</button>
-            <button style="background:red; color:white; border:none; padding:5px 10px; cursor:pointer;" onclick="location.reload()">SAIR</button>
+            <button class="btn-action" style="background:transparent; color:white; border:1px solid white" onclick="showAuthModal()">ACESSAR CONTA</button>
+            <button class="btn-action" style="background:red; color:white;" onclick="location.reload()">SAIR</button>
         </div>
     </div>
 
     <div id="authModal" class="modal-center">
-        <h3 id="authTitle">Administrador</h3>
-        <input type="text" id="adminUser" placeholder="NOME">
-        <input type="password" id="adminPass" placeholder="SENHA">
-        <div class="btn-group">
-            <button class="btn-action" onclick="handleAuth('login')">ENTRAR</button>
-            <button class="btn-action" onclick="handleAuth('register')">CADASTRAR</button>
-        </div>
+        <h3>Portal de Identidade</h3>
+        <input type="text" id="adminUser" placeholder="NOME DO ADMIN">
+        <input type="password" id="adminPass" placeholder="SENHA DO ADMIN">
+        <button class="btn-action" onclick="handleAuth('login')">ENTRAR</button>
+        <button class="btn-action" onclick="handleAuth('register')">CADASTRAR</button>
     </div>
 
     <div id="codeEditor">
-        <h2 style="text-align: center;">FORJA DE CÓDIGOS</h2>
-        <div class="editor-container" id="inputsContainer">
-            <div class="code-input-row">
-                <input type="text" placeholder="Cole seu código aqui...">
-            </div>
-        </div>
-        <div class="controls">
-            <button class="btn-circle" onclick="addRow()">+</button>
-            <button class="btn-circle" onclick="removeRow()">-</button>
-            <button class="btn-action" onclick="location.reload()">FECHAR E SALVAR</button>
+        <h2 style="text-align: center; color: var(--main-red);">SANTUÁRIO DE CÓDIGOS - <span id="currentUserDisplay"></span></h2>
+        <div class="editor-container" id="inputsContainer"></div>
+        <div class="controls" style="text-align:center;">
+            <button class="btn-action" onclick="addRow('')">+</button>
+            <button class="btn-action" onclick="removeRow()">-</button>
+            <button class="btn-action" onclick="saveAndExit()">SALVAR E FECHAR</button>
         </div>
     </div>
 
     <div class="overlay" id="overlay" onclick="closeAll()"></div>
 
     <script>
-        // --- LOGICA DE IA (DENTRO DO SITE) ---
+        let currentUser = "";
+        const campoPesquisa = document.getElementById('searchBox');
+        const localResposta = document.querySelector('.texto-boas-vindas');
+
+        // --- 1. FUNÇÃO DA IA (CONEXÃO DIRETA) ---
         async function falarComIA(pergunta) {
-            const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=CHAVE_DELE_AQUI', {
+            const key = 'SUA_CHAVE_AQUI'; // <--- INSIRA SUA API KEY AQUI
+            const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`, {
                 method: 'POST',
                 body: JSON.stringify({ contents: [{ parts: [{ text: pergunta }] }] })
             });
@@ -147,54 +113,83 @@
             return data.candidates[0].content.parts[0].text;
         }
 
-        // --- NAVEGAÇÃO BÁSICA ---
+        // --- 2. FUNÇÃO DISPARAR PESQUISA (CÓDIGO UNIFICADO) ---
+        async function executarPesquisa() {
+            const pergunta = campoPesquisa.value;
+            if(!pergunta) return;
+
+            // Abrir imagens no Google em nova aba
+            window.open(`https://www.google.com/search?q=${pergunta}&tbm=isch`, '_blank');
+
+            localResposta.innerText = "Processando sua vontade, Mestre...";
+            showTab('inicio');
+            
+            try {
+                const resposta = await falarComIA(pergunta);
+                localResposta.innerText = resposta;
+            } catch (e) {
+                localResposta.innerText = "Erro ao conectar com a essência digital.";
+            }
+        }
+
+        // --- 3. EVENTOS DE TECLADO ---
+        campoPesquisa.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                executarPesquisa();
+            }
+        });
+
+        // --- NAVEGAÇÃO E SEGURANÇA ---
         function toggleSidebar() { document.getElementById('sidebar').classList.toggle('active'); document.getElementById('overlay').classList.toggle('active'); }
         function closeAll() { document.getElementById('sidebar').classList.remove('active'); document.getElementById('overlay').classList.remove('active'); document.getElementById('authModal').style.display='none'; }
         function showTab(id) { document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active')); document.getElementById(id).classList.add('active'); closeAll(); }
-
-        // --- SEGURANÇA DA COROA ---
-        function promptMainKey() {
-            const key = prompt("Digite a Chave Sagrada:");
-            if(key === '15092011') {
-                document.getElementById('adminPortal').style.display = 'block';
-            } else if(key !== null) {
-                alert("Senha Incorreta!");
-            }
-        }
-
+        function promptMainKey() { if(prompt("Chave Sagrada:") === '15092011') document.getElementById('adminPortal').style.display = 'block'; }
         function showAuthModal() { document.getElementById('authModal').style.display = 'block'; document.getElementById('overlay').classList.add('active'); }
 
-        // --- CADASTRO E LOGIN (LocalStorage) ---
+        // --- GESTÃO DE CONTAS E PERSISTÊNCIA ---
         function handleAuth(type) {
             const user = document.getElementById('adminUser').value;
             const pass = document.getElementById('adminPass').value;
-            if(!user || !pass) return alert("Preencha todos os campos!");
+            if(!user || !pass) return alert("Preencha os campos!");
 
             if(type === 'register') {
-                localStorage.setItem('admin_'+user, pass);
-                alert("Administrador cadastrado com sucesso!");
+                localStorage.setItem(`pass_${user}`, pass);
+                alert("Administrador cadastrado!");
             } else {
-                if(localStorage.getItem('admin_'+user) === pass) {
-                    document.getElementById('codeEditor').style.display = 'block';
-                } else {
-                    alert("Nome ou Senha incorretos!");
-                    location.reload();
-                }
+                if(localStorage.getItem(`pass_${user}`) === pass) {
+                    currentUser = user;
+                    openEditor();
+                } else alert("Acesso negado!");
             }
         }
 
-        // --- EDITOR DINÂMICO ---
-        function addRow() {
+        function openEditor() {
+            document.getElementById('currentUserDisplay').innerText = currentUser;
+            document.getElementById('codeEditor').style.display = 'block';
             const container = document.getElementById('inputsContainer');
+            container.innerHTML = "";
+            const savedData = JSON.parse(localStorage.getItem(`data_${currentUser}`) || "[]");
+            if(savedData.length === 0) addRow(''); else savedData.forEach(text => addRow(text));
+        }
+
+        function addRow(val) {
             const div = document.createElement('div');
             div.className = 'code-input-row';
-            div.innerHTML = '<input type="text" placeholder="Nova linha de código...">';
-            container.appendChild(div);
+            div.innerHTML = `<input type="text" value="${val}" placeholder="Código místico...">`;
+            document.getElementById('inputsContainer').appendChild(div);
         }
 
         function removeRow() {
-            const container = document.getElementById('inputsContainer');
-            if(container.children.length > 1) container.removeChild(container.lastChild);
+            const c = document.getElementById('inputsContainer');
+            if(c.children.length > 1) c.removeChild(c.lastChild);
+        }
+
+        function saveAndExit() {
+            const inputs = document.querySelectorAll('#inputsContainer input');
+            const dataToSave = Array.from(inputs).map(i => i.value);
+            localStorage.setItem(`data_${currentUser}`, JSON.stringify(dataToSave));
+            alert("Memória selada com sucesso!");
+            location.reload();
         }
     </script>
 </body>
