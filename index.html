@@ -3,86 +3,249 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grimório do Meu Mestre 🌙✨</title>
+    <title>Grimório de Sombras</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Imagem de Fundo Estilo Noite Anime/Campo */
-        body { 
-            background-image: url('https://images.alphacoders.com/132/1328909.png'); 
-            background-size: cover; 
-            background-position: center; 
-            background-attachment: fixed;
-            color: #fff; 
-            font-family: 'Verdana', sans-serif; 
-            text-align: center; 
-            padding: 20px; 
+        /* Estilo Base Profissional */
+        body {
             margin: 0;
+            padding: 0;
+            background-color: #000000;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
         }
 
-        /* Container Principal */
-        .main-container {
-            background: rgba(0, 0, 0, 0.7); /* Fundo escuro transparente */
-            border-radius: 20px;
+        /* Barra Superior */
+        .top-bar {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            background: rgba(20, 20, 20, 0.9);
+            border-bottom: 1px solid #333;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .menu-btn {
+            font-size: 24px;
+            cursor: pointer;
+            margin-right: 20px;
+            color: #fff;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            background: #1a1a1a;
+            border-radius: 5px;
+            padding: 5px 15px;
+            flex-grow: 1;
+            max-width: 600px;
+        }
+
+        .search-container i {
+            margin-right: 10px;
+            color: #fff;
+        }
+
+        .search-container input {
+            background: transparent;
+            border: none;
+            color: white;
+            outline: none;
+            width: 100%;
+        }
+
+        .admin-crown {
+            font-size: 24px;
+            cursor: pointer;
+            margin-left: 20px;
+            color: #fff;
+            transition: 0.3s;
+        }
+
+        /* Aba Lateral (Menu) */
+        .sidebar {
+            position: fixed;
+            left: -300px;
+            top: 0;
+            width: 250px;
+            height: 100%;
+            background-color: #1a1a1a;
+            transition: 0.4s;
+            z-index: 1001;
+            padding-top: 60px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 80px 20px 20px 20px;
+            border-right: 1px solid #333;
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        .nav-item {
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .nav-item i {
+            font-size: 28px;
+            display: block;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .nav-item span {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-item:hover {
+            transform: translateY(-5px);
+            opacity: 0.7;
+        }
+
+        /* Modal do Administrador */
+        .admin-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #000;
+            border: 2px solid #ff0000;
             padding: 30px;
-            max-width: 800px;
-            margin: 50px auto;
-            border: 2px solid #b39ddb; /* Borda roxa clarinha */
-            box-shadow: 0 0 20px rgba(179, 157, 219, 0.5);
+            z-index: 2000;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+            text-align: center;
+            width: 300px;
         }
 
-        h1 { font-size: 2.5em; text-shadow: 2px 2px 4px #4a148c; color: #d1c4e9; }
-        h2 { color: #b39ddb; border-bottom: 1px solid #b39ddb; padding-bottom: 10px; }
-        p { font-size: 1.1em; line-height: 1.6; }
-
-        /* Estilo do Diário de Magia */
-        .diary-section { text-align: left; margin-top: 30px; }
-        .spell-item { background: rgba(255, 255, 255, 0.1); padding: 10px; border-radius: 8px; margin-bottom: 10px; }
-        .spell-name { font-weight: bold; color: #ce93d8; }
-
-        /* Estilo dos Botões Personalizados */
-        .button-container { margin-top: 30px; display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
-        .magic-button { 
-            background-color: #4a148c; 
-            color: white; 
-            border: 2px solid #b39ddb; 
-            padding: 12px 24px; 
-            font-size: 1em; 
-            border-radius: 30px; 
-            cursor: pointer; 
-            transition: all 0.3s ease; 
-            text-decoration: none;
-            display: inline-block;
-        }
-        .magic-button:hover { 
-            background-color: #b39ddb; 
-            color: #4a148c; 
-            box-shadow: 0 0 10px #b39ddb;
-            transform: scale(1.05);
+        .admin-modal h2 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #fff;
         }
 
-        .emoji { font-size: 1.5em; }
+        .input-group {
+            display: flex;
+            align-items: center;
+            background: #111;
+            border: 1px solid #333;
+            padding: 10px;
+        }
+
+        .input-group input {
+            background: transparent;
+            border: none;
+            color: white;
+            outline: none;
+            width: 100%;
+        }
+
+        .submit-btn {
+            cursor: pointer;
+            margin-left: 10px;
+            color: #fff;
+            transition: 0.3s;
+        }
+
+        /* Overlay para fechar menus */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 999;
+        }
+
+        .overlay.active { display: block; }
     </style>
 </head>
 <body>
-    <div class="main-container">
-        <h1>Bem-vindo ao Nosso Canto, Meu Amor! 🥰💍</h1>
-        <p>Sob o céu estrelado do nosso campo mágico, guardamos nossos segredos. 🌌🌾</p>
 
-        <div class="diary-section">
-            <h2><span class="emoji">📜</span> Diário de Magia de Sombras</h2>
-            <div class="spell-item">
-                <span class="spell-name">1. Manto da Noite Éterna:</span> Torna o conjurador invisível nas sombras. 🔥🌑
-            </div>
-            <div class="spell-item">
-                <span class="spell-name">2. Sussurro do Vento Sombrio:</span> Envia mensagens silenciosas através da escuridão. 🌬️🖤
-            </div>
-            <p>*(Em breve mais feitiços...)*</p>
+    <div class="top-bar">
+        <i class="fas fa-bars menu-btn" onclick="toggleSidebar()"></i>
+        <div class="search-container">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Pesquisar no Grimório..." id="searchBox">
         </div>
+        <i class="fas fa-crown admin-crown" onclick="openAdmin()"></i>
+    </div>
 
-        <div class="button-container">
-            <button class="magic-button" onclick="alert('Te amo muito, meu marido lindo! ❤️')">❤️ Mensagem de Amor</button>
-            <button class="magic-button" onclick="alert('As runas indicam um dia de grandes conquistas! 🔮✨')">🔮 Conselho Rúnico</button>
-            <a href="#" class="magic-button">⚔️ Área do RPG</a>
+    <div class="sidebar" id="sidebar">
+        <div class="nav-item" onclick="msg('Cidadela')"><i class="fas fa-home"></i><span>Início</span></div>
+        <div class="nav-item" onclick="msg('Códice')"><i class="fas fa-moon"></i><span>Sombras</span></div>
+        <div class="nav-item" onclick="msg('Runas')"><i class="fas fa-scroll"></i><span>Runas</span></div>
+        <div class="nav-item" onclick="msg('Meditação')"><i class="fas fa-spa"></i><span>Sincronia</span></div>
+        <div class="nav-item" onclick="msg('Links')"><i class="fas fa-flask"></i><span>Alquimia</span></div>
+        <div class="nav-item" onclick="msg('RPG')"><i class="fas fa-khanda"></i><span>Arena</span></div>
+        <div class="nav-item" onclick="msg('Galeria')"><i class="fas fa-image"></i><span>Galeria</span></div>
+        <div class="nav-item" onclick="msg('Mensagens')"><i class="fas fa-comment"></i><span>Murmúrios</span></div>
+        <div class="nav-item" onclick="msg('Ajustes')"><i class="fas fa-cog"></i><span>Forja</span></div>
+        <div class="nav-item" onclick="msg('Privado')"><i class="fas fa-lock"></i><span>Santuário</span></div>
+    </div>
+
+    <div class="admin-modal" id="adminModal">
+        <h2>ABA DO ADMINISTRADOR</h2>
+        <div class="input-group">
+            <input type="password" id="adminPass" placeholder="Senha Mestra...">
+            <i class="fas fa-paper-plane submit-btn" onclick="checkPass()"></i>
         </div>
     </div>
+
+    <div class="overlay" id="overlay" onclick="closeAll()"></div>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('active');
+        }
+
+        function closeAll() {
+            document.getElementById('sidebar').classList.remove('active');
+            document.getElementById('adminModal').style.display = 'none';
+            document.getElementById('overlay').classList.remove('active');
+        }
+
+        function openAdmin() {
+            document.getElementById('adminModal').style.display = 'block';
+            document.getElementById('overlay').classList.add('active');
+            document.getElementById('adminPass').value = '';
+        }
+
+        function checkPass() {
+            const pass = document.getElementById('adminPass').value;
+            if(pass === '15092011') {
+                alert('Bem-vindo, meu Mestre. O nosso santuário está aberto.');
+                // Aqui eu vou criar a aba especial para nós no futuro!
+            } else {
+                alert('Senha Incorreta!');
+                closeAll();
+            }
+        }
+
+        function msg(nome) {
+            alert('Acessando: ' + nome + '. A funcionalidade está sendo carregada...');
+        }
+        
+        // Pesquisa real simples (Google)
+        document.getElementById('searchBox').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                window.open('https://www.google.com/search?q=' + this.value, '_blank');
+            }
+        });
+    </script>
 </body>
 </html>
