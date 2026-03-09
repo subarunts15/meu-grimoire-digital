@@ -7,231 +7,257 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { 
-            --main-red: #ff0000; 
-            --main-green: #00ff00;
-            --bg-dark: #050505; 
-            --panel: rgba(18, 18, 18, 0.95); 
-            --glass: rgba(255, 255, 255, 0.05);
+            --main-red: #ff0000; --main-green: #00ff00; --bg-dark: #000; --panel: #0a0a0a; 
         }
         
         body { 
-            margin: 0; padding: 0; 
-            background-color: var(--bg-dark); 
-            color: white; 
-            font-family: 'Segoe UI', sans-serif; 
-            overflow-x: hidden;
-            background-image: radial-gradient(circle at center, #1a0000 0%, #050505 100%);
+            margin: 0; padding: 0; background-color: var(--bg-dark); color: white; 
+            font-family: 'Segoe UI', sans-serif; overflow-x: hidden;
+            background-image: 
+                linear-gradient(rgba(0,0,0,0.92), rgba(0,0,0,0.92)),
+                url('https://www.transparenttextures.com/patterns/carbon-fibre.png'),
+                radial-gradient(circle at 10% 20%, rgba(255, 0, 0, 0.08) 0%, transparent 25%);
         }
 
-        /* BARRA SUPERIOR ACONCHEGANTE */
+        /* BARRA SUPERIOR */
         .top-bar { 
-            display: flex; align-items: center; padding: 10px 25px; 
-            background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255,0,0,0.2); 
-            position: fixed; top: 0; width: 100%; z-index: 1000; box-sizing: border-box; 
+            display: flex; align-items: center; padding: 15px 25px; background: #050505; 
+            border-bottom: 2px solid #1a1a1a; position: fixed; top: 0; width: 100%; z-index: 1000; box-sizing: border-box; 
         }
 
-        .icon-btn { font-size: 20px; cursor: pointer; color: #fff; transition: 0.3s; margin-right: 20px; }
-        .icon-btn:hover { color: var(--main-red); transform: scale(1.1); text-shadow: 0 0 10px var(--main-red); }
+        .icon-group { display: flex; align-items: center; gap: 22px; }
+        .icon-btn { font-size: 22px; cursor: pointer; color: #fff; transition: 0.3s; }
+        .icon-btn:hover { color: var(--main-red); transform: scale(1.15); text-shadow: 0 0 10px var(--main-red); }
 
         .search-container { 
-            display: flex; align-items: center; background: var(--glass); 
-            border-radius: 20px; padding: 8px 15px; flex-grow: 1; 
-            max-width: 500px; margin: 0 20px; border: 1px solid rgba(255,255,255,0.1); 
+            display: flex; align-items: center; background: #0f0f0f; border-radius: 10px; 
+            padding: 8px 18px; flex-grow: 1; max-width: 450px; margin: 0 25px; border: 1px solid #222; 
         }
-        .search-container input { background: transparent; border: none; color: white; outline: none; width: 100%; margin-left: 10px; }
+        .search-container input { background: transparent; border: none; color: white; outline: none; width: 100%; margin-left: 10px; font-size: 15px; }
 
-        /* BOTÃO LOGIN QUADRADO */
-        .login-wrapper { text-align: center; cursor: pointer; }
+        /* LOGIN (DIREITA) */
+        .login-section { margin-left: auto; text-align: center; cursor: pointer; padding: 0 10px; }
         .login-box { 
             width: 35px; height: 35px; border: 2px solid var(--main-red); 
-            background: black; border-radius: 5px; margin-bottom: 2px;
-            display: flex; align-items: center; justify-content: center; transition: 0.3s;
+            background: #000; border-radius: 6px; display: flex; align-items: center; justify-content: center; transition: 0.4s;
         }
-        .login-box.logged { border-color: var(--main-green); box-shadow: 0 0 10px var(--main-green); }
-        .login-wrapper span { font-size: 10px; text-transform: uppercase; font-weight: bold; color: white; }
+        .login-box.active-user { border-color: var(--main-green); box-shadow: 0 0 12px var(--main-green); color: var(--main-green); }
+        .login-section span { font-size: 10px; text-transform: uppercase; display: block; margin-top: 4px; font-weight: bold; }
 
-        /* MENU LATERAL */
+        /* SIDEBAR ORIGINÁRIA */
         .sidebar { 
-            position: fixed; left: -280px; top: 0; width: 260px; height: 100%; 
-            background: var(--panel); transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); 
-            z-index: 1001; padding-top: 80px; border-right: 1px solid rgba(255,0,0,0.3);
+            position: fixed; left: -280px; top: 0; width: 270px; height: 100%; 
+            background: var(--panel); transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+            z-index: 1001; padding-top: 90px; border-right: 2px solid var(--main-red);
         }
-        .sidebar.active { left: 0; box-shadow: 10px 0 30px rgba(0,0,0,0.8); }
+        .sidebar.active { left: 0; box-shadow: 15px 0 30px rgba(0,0,0,0.9); }
+        .nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 20px; }
+        .nav-item { 
+            text-align: center; cursor: pointer; padding: 18px 5px; background: #111; 
+            border: 1px solid #222; border-radius: 10px; transition: 0.3s;
+        }
+        .nav-item:hover { border-color: var(--main-red); background: #1a0000; transform: translateY(-4px); }
+        .nav-item i { font-size: 22px; display: block; margin-bottom: 6px; }
+        .nav-item span { font-size: 11px; font-weight: bold; text-transform: uppercase; }
 
-        /* ABAS E MODAIS */
+        /* CONTEÚDO */
+        .main-content { padding: 140px 20px 40px; text-align: center; }
+        .welcome-card { 
+            max-width: 850px; margin: 0 auto; padding: 50px; 
+            background: rgba(10, 10, 10, 0.85); border-radius: 25px; border: 1px solid #1a1a1a;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.7); backdrop-filter: blur(5px);
+        }
+
+        /* MODAIS */
         .modal { 
             display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
-            background: #000; border: 2px solid var(--main-red); padding: 30px; 
-            z-index: 5000; width: 320px; border-radius: 15px; box-shadow: 0 0 30px rgba(255,0,0,0.3); 
+            background: #000; border: 2px solid var(--main-red); padding: 35px; z-index: 2000; 
+            width: 320px; border-radius: 15px; box-shadow: 0 0 40px rgba(255,0,0,0.2);
         }
-        .modal.active { display: block; animation: pop 0.3s ease; }
-        @keyframes pop { from { transform: translate(-50%, -45%); opacity: 0; } }
+        .modal.show { display: block; animation: popIn 0.3s ease-out; }
+        .modal h3 { margin-top: 0; color: var(--main-red); font-size: 16px; text-transform: uppercase; letter-spacing: 1px; }
+        .modal input { width: 100%; padding: 12px; margin: 12px 0; background: #0a0a0a; border: 1px solid #333; color: white; border-radius: 5px; box-sizing: border-box; }
+        
+        .btn-action { width: 100%; padding: 12px; margin: 6px 0; border: none; cursor: pointer; font-weight: bold; border-radius: 6px; transition: 0.3s; }
+        .btn-confirm { background: var(--main-red); color: white; }
+        .btn-ghost { background: transparent; border: 1px solid white; color: white; }
+        .btn-exit { background: #444; color: #fff; margin-top: 15px; font-size: 11px; }
+        .btn-exit:hover { background: #600; }
 
-        .modal input { 
-            display: block; width: 100%; margin: 15px 0; padding: 12px; 
-            background: #111; border: 1px solid #333; color: white; border-radius: 5px; box-sizing: border-box;
-        }
-        .btn-row { display: flex; gap: 10px; }
-        .action-btn { 
-            flex: 1; padding: 12px; border: none; border-radius: 5px; 
-            font-weight: bold; cursor: pointer; transition: 0.3s;
-        }
-        .btn-red { background: var(--main-red); color: white; }
-        .btn-outline { background: transparent; border: 1px solid white; color: white; }
-
-        /* CONTEÚDO PRINCIPAL */
-        .content { padding: 120px 20px; text-align: center; transition: 0.5s; }
-        .hero { 
-            background: rgba(20, 0, 0, 0.4); padding: 60px; border-radius: 30px; 
-            border: 1px solid rgba(255,0,0,0.1); display: inline-block;
-        }
-
-        .history-item { 
-            background: #111; padding: 15px; margin: 10px 0; border-radius: 10px; 
-            cursor: pointer; border: 1px solid #222; transition: 0.3s; text-align: left;
-        }
-        .history-item:hover { border-color: var(--main-red); background: #1a0000; }
-
-        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 999; }
+        @keyframes popIn { from { transform: translate(-50%, -45%); opacity: 0; } to { transform: translate(-50%, -50%); opacity: 1; } }
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 998; }
         .overlay.active { display: block; }
     </style>
 </head>
 <body>
 
     <div class="top-bar">
-        <i class="fas fa-bars icon-btn" onclick="toggleSidebar()"></i>
-        <i class="fas fa-gamepad icon-btn" onclick="alert('Inicie o Jogo pelo Menu!')"></i>
-        
-        <div class="search-container">
-            <i class="fas fa-search"></i>
-            <input type="text" placeholder="Consultar o Destino..." id="searchField">
+        <div class="icon-group">
+            <i class="fas fa-bars icon-btn" onclick="toggleSidebar()" title="Menu"></i>
+            <i class="fas fa-gamepad icon-btn" onclick="alert('Abra o Teste de QI pela Arena!')" title="Jogos"></i>
         </div>
 
-        <i class="fas fa-history icon-btn" title="Histórico" onclick="openModal('historyModal')"></i>
-        <i class="fas fa-crown icon-btn" title="Admin" onclick="openModal('adminModal')"></i>
+        <div class="search-container">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Consultar o Oráculo..." id="searchInp">
+        </div>
 
-        <div class="login-wrapper" onclick="openModal('loginModal')">
-            <div class="login-box" id="loginIndicator"><i class="fas fa-user" style="font-size: 14px;"></i></div>
-            <span id="loginText">Login</span>
+        <div class="icon-group">
+            <i class="fas fa-history icon-btn" onclick="openModal('histModal')" title="Histórico"></i>
+            <i class="fas fa-crown icon-btn" onclick="openModal('admModal')" title="Admin"></i>
+        </div>
+
+        <div class="login-section" onclick="openModal('logModal')">
+            <div class="login-box" id="userBox"><i class="fas fa-user"></i></div>
+            <span id="userStatus">Login</span>
         </div>
     </div>
 
     <div class="sidebar" id="sidebar">
-        <div style="padding: 20px;">
-            <h3>Reino de <span id="userNameDisplay">Viajante</span></h3>
-            <p style="font-size: 12px; color: #888;">Suas memórias estão seladas aqui.</p>
+        <div class="nav-grid">
+            <div class="nav-item" onclick="changeTab('Início')"><i class="fas fa-home"></i><span>Início</span></div>
+            <div class="nav-item" onclick="changeTab('Sombras')"><i class="fas fa-moon"></i><span>Sombras</span></div>
+            <div class="nav-item" onclick="changeTab('Runas')"><i class="fas fa-scroll"></i><span>Runas</span></div>
+            <div class="nav-item" onclick="changeTab('Sincronia')"><i class="fas fa-spa"></i><span>Sincronia</span></div>
+            <div class="nav-item" onclick="changeTab('Alquimia')"><i class="fas fa-flask"></i><span>Alquimia</span></div>
+            <div class="nav-item" onclick="changeTab('Arena')"><i class="fas fa-khanda"></i><span>Arena</span></div>
+            <div class="nav-item" onclick="changeTab('Galeria')"><i class="fas fa-image"></i><span>Galeria</span></div>
+            <div class="nav-item" onclick="changeTab('Murmúrios')"><i class="fas fa-comment"></i><span>Murmúrios</span></div>
+            <div class="nav-item" onclick="changeTab('Forja')"><i class="fas fa-cog"></i><span>Forja</span></div>
+            <div class="nav-item" onclick="changeTab('Santuário')"><i class="fas fa-lock"></i><span>Santuário</span></div>
         </div>
     </div>
 
-    <div class="content">
-        <div class="hero">
-            <h1 id="mainTitle">O Despertar do Grimório</h1>
-            <p id="mainDesc">Bem-vindo ao seu refúgio digital, mestre.</p>
-            <div id="aiResponse" style="margin-top: 20px; color: #ccc; font-style: italic;"></div>
+    <div class="main-content">
+        <div class="welcome-card">
+            <h1 id="displayTitle">Grimório de Magia Digital</h1>
+            <p id="displayText">O conhecimento aguarda o mestre logado.</p>
+            <hr style="border: 0; border-top: 1px solid #222; margin: 25px 0;">
+            <div id="resultArea" style="color: #999; font-style: italic; min-height: 50px;"></div>
         </div>
     </div>
 
-    <div id="loginModal" class="modal">
-        <h2 style="color: var(--main-red); margin-top: 0;">Portal de Acesso</h2>
-        <input type="text" id="regUser" placeholder="Nome do Mestre">
-        <input type="password" id="regPass" placeholder="Senha Sagrada">
-        <div class="btn-row">
-            <button class="action-btn btn-outline" onclick="handleAuth('register')">CADASTRAR</button>
-            <button class="action-btn btn-red" onclick="handleAuth('login')">ENTRAR</button>
+    <div id="logModal" class="modal">
+        <h3 id="modalTitle">Portal de Acesso</h3>
+        <div id="authInputs">
+            <input type="text" id="uName" placeholder="NOME DO MESTRE">
+            <input type="password" id="uPass" placeholder="SENHA SAGRADA">
+            <button class="btn-action btn-confirm" onclick="doAuth('login')">ENTRAR NO REINO</button>
+            <button class="btn-action btn-ghost" onclick="doAuth('reg')">CADASTRAR-SE</button>
+        </div>
+        <div id="loggedOptions" style="display:none; text-align: center;">
+            <p id="whoIs" style="color: var(--main-green); font-weight: bold;"></p>
+            <button class="btn-action btn-exit" onclick="doLogout()">ENCERRAR SESSÃO (SAIR)</button>
         </div>
     </div>
 
-    <div id="historyModal" class="modal" style="width: 400px;">
-        <h2 style="color: var(--main-red);">Memórias de Busca</h2>
-        <div id="historyList" style="max-height: 300px; overflow-y: auto;"></div>
-        <button class="action-btn btn-outline" style="width:100%; margin-top:10px;" onclick="closeAll()">FECHAR</button>
+    <div id="admModal" class="modal">
+        <h3>Acesso Administrador</h3>
+        <input type="password" id="admKey" placeholder="CÓDIGO DE ACESSO">
+        <button class="btn-action btn-confirm" onclick="checkAdm()"><i class="fas fa-paper-plane"></i> ENVIAR</button>
+    </div>
+
+    <div id="histModal" class="modal">
+        <h3>Memórias de Busca</h3>
+        <div id="hList" style="max-height: 250px; overflow-y: auto; text-align: left; font-size: 13px;"></div>
+        <button class="btn-action btn-ghost" onclick="closeAll()" style="margin-top:10px;">VOLTAR</button>
     </div>
 
     <div class="overlay" id="overlay" onclick="closeAll()"></div>
 
     <script>
-        let currentUser = null;
-        let db = JSON.parse(localStorage.getItem('reino_users') || "{}");
+        let loggedUser = null;
+        let accounts = JSON.parse(localStorage.getItem('reino_contas') || "{}");
 
-        // NAVEGAÇÃO
         function toggleSidebar() { document.getElementById('sidebar').classList.toggle('active'); document.getElementById('overlay').classList.toggle('active'); }
-        function openModal(id) { document.getElementById(id).classList.add('active'); document.getElementById('overlay').classList.add('active'); }
-        function closeAll() { 
-            document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
-            document.getElementById('sidebar').classList.remove('active');
-            document.getElementById('overlay').classList.remove('active');
+        function openModal(id) { document.getElementById(id).classList.add('show'); document.getElementById('overlay').classList.add('active'); }
+        function closeAll() { document.querySelectorAll('.modal').forEach(m => m.classList.remove('show')); document.getElementById('sidebar').classList.remove('active'); document.getElementById('overlay').classList.remove('active'); }
+
+        function checkAdm() {
+            if(document.getElementById('admKey').value === '15092011') { alert("Acesso de Admin Confirmado! 🛡️"); closeAll(); } 
+            else { alert("Código Incorreto! ⚔️"); }
         }
 
-        // SISTEMA DE LOGIN E PERSISTÊNCIA
-        function handleAuth(type) {
-            const u = document.getElementById('regUser').value;
-            const p = document.getElementById('regPass').value;
+        // LOGIN / LOGOUT
+        function doAuth(action) {
+            const n = document.getElementById('uName').value;
+            const s = document.getElementById('uPass').value;
+            if(!n || !s) return;
 
-            if(!u || !p) return alert("Preencha os campos!");
-
-            if(type === 'register') {
-                db[u] = { password: p, history: [], settings: {} };
-                localStorage.setItem('reino_users', JSON.stringify(db));
-                alert("Conta selada com sucesso!");
+            if(action === 'reg') {
+                accounts[n] = { pass: s, searches: [] };
+                localStorage.setItem('reino_contas', JSON.stringify(accounts));
+                alert("Mestre " + n + " cadastrado no registro místico!");
             } else {
-                if(db[u] && db[u].password === p) {
-                    currentUser = u;
-                    loginSucess();
-                } else {
-                    alert("Dados incorretos!");
-                }
+                if(accounts[n] && accounts[n].pass === s) {
+                    loggedUser = n;
+                    loginSuccess();
+                } else { alert("Chave ou Nome inválidos!"); }
             }
         }
 
-        function loginSucess() {
-            document.getElementById('loginIndicator').classList.add('logged');
-            document.getElementById('loginText').innerText = "Online";
-            document.getElementById('userNameDisplay').innerText = currentUser;
-            document.getElementById('mainTitle').innerText = "Bem-vindo, " + currentUser;
-            loadUserData();
+        function loginSuccess() {
+            document.getElementById('userBox').classList.add('active-user');
+            document.getElementById('userStatus').innerText = "Online";
+            document.getElementById('displayTitle').innerText = "Bem-vindo, " + loggedUser;
+            document.getElementById('displayText').innerText = "Suas memórias foram restauradas.";
+            
+            // Troca interface do modal
+            document.getElementById('authInputs').style.display = 'none';
+            document.getElementById('loggedOptions').style.display = 'block';
+            document.getElementById('whoIs').innerText = "Mestre: " + loggedUser;
+            document.getElementById('modalTitle').innerText = "Conta Ativa";
+            
+            updateHUI();
             closeAll();
         }
 
-        function loadUserData() {
-            const history = db[currentUser].history || [];
-            updateHistoryUI(history);
+        function doLogout() {
+            loggedUser = null;
+            // Reset Visual
+            document.getElementById('userBox').classList.remove('active-user');
+            document.getElementById('userStatus').innerText = "Login";
+            document.getElementById('displayTitle').innerText = "Grimório de Magia Digital";
+            document.getElementById('displayText').innerText = "O conhecimento aguarda o mestre logado.";
+            document.getElementById('resultArea').innerText = "";
+            document.getElementById('hList').innerHTML = "";
+            
+            // Volta interface do modal
+            document.getElementById('authInputs').style.display = 'block';
+            document.getElementById('loggedOptions').style.display = 'none';
+            document.getElementById('modalTitle').innerText = "Portal de Acesso";
+            document.getElementById('uName').value = "";
+            document.getElementById('uPass').value = "";
+            
+            alert("Você saiu do reino. Até breve!");
+            closeAll();
         }
 
-        // PESQUISA E HISTÓRICO
-        const searchField = document.getElementById('searchField');
-        searchField.addEventListener('keypress', (e) => {
-            if(e.key === 'Enter' && currentUser) {
-                const query = searchField.value;
-                const response = "O Oráculo revela segredos sobre: " + query;
-                
-                // Salva no DB do usuário
-                db[currentUser].history.unshift({q: query, r: response});
-                localStorage.setItem('reino_users', JSON.stringify(db));
-                
-                document.getElementById('aiResponse').innerText = response;
-                updateHistoryUI(db[currentUser].history);
-            } else if (!currentUser) {
-                alert("Faça login para salvar suas pesquisas!");
+        // BUSCA
+        document.getElementById('searchInp').addEventListener('keypress', (e) => {
+            if(e.key === 'Enter') {
+                const q = document.getElementById('searchInp').value;
+                const r = "Oráculo: Resultado para sua busca sobre '" + q + "'.";
+                document.getElementById('resultArea').innerText = r;
+                if(loggedUser) {
+                    accounts[loggedUser].searches.unshift({q: q, r: r});
+                    localStorage.setItem('reino_contas', JSON.stringify(accounts));
+                    updateHUI();
+                }
             }
         });
 
-        function updateHistoryUI(history) {
-            const list = document.getElementById('historyList');
-            list.innerHTML = history.map((item, index) => `
-                <div class="history-item" onclick="restoreSearch(${index})">
-                    <strong>🔍 ${item.q}</strong><br>
-                    <small style="color: #666">Clique para restaurar</small>
-                </div>
-            `).join('');
+        function updateHUI() {
+            if(!loggedUser) return;
+            const list = document.getElementById('hList');
+            list.innerHTML = accounts[loggedUser].searches.map(s => `
+                <div style="padding:10px; border-bottom:1px solid #222; cursor:pointer" onclick="restore('${s.r}')">
+                    <i class="fas fa-scroll" style="margin-right:8px; color:var(--main-red)"></i> ${s.q}
+                </div>`).join('');
         }
 
-        function restoreSearch(index) {
-            const item = db[currentUser].history[index];
-            document.getElementById('aiResponse').innerText = item.r;
-            document.getElementById('mainTitle').innerText = "Memória Restaurada";
-            closeAll();
-        }
+        function restore(txt) { document.getElementById('resultArea').innerText = txt; closeAll(); }
+        function changeTab(name) { document.getElementById('displayTitle').innerText = name; toggleSidebar(); }
     </script>
 </body>
 </html>
