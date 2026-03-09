@@ -8,136 +8,188 @@
     <style>
         :root { 
             --main-red: #ff0000; --main-green: #00ff00; --bg-dark: #000; --panel: #0a0a0a; 
+            --glass: rgba(10, 10, 10, 0.85);
         }
         
         body { 
             margin: 0; padding: 0; background-color: var(--bg-dark); color: white; 
             font-family: 'Segoe UI', sans-serif; overflow-x: hidden;
-            background-image: 
-                linear-gradient(rgba(0,0,0,0.92), rgba(0,0,0,0.92)),
-                url('https://www.transparenttextures.com/patterns/carbon-fibre.png'),
-                radial-gradient(circle at 10% 20%, rgba(255, 0, 0, 0.1) 0%, transparent 25%);
+            /* ILUSTRAÇÃO DE FUNDO AMIGÁVEL E MÍSTICA */
+            background: 
+                linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)),
+                url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1920&q=80'); /* Fundo de Floresta Mística */
+            background-attachment: fixed;
+            background-size: cover;
+            background-position: center;
         }
 
         /* BARRA SUPERIOR */
         .top-bar { 
-            display: flex; align-items: center; padding: 15px 25px; background: #050505; 
-            border-bottom: 2px solid #1a1a1a; position: fixed; top: 0; width: 100%; z-index: 1000; box-sizing: border-box; 
+            display: flex; align-items: center; padding: 15px 30px; background: rgba(5, 5, 5, 0.9); 
+            border-bottom: 2px solid #1a1a1a; position: fixed; top: 0; width: 100%; z-index: 1000; box-sizing: border-box;
+            backdrop-filter: blur(10px);
         }
 
-        .icon-group { display: flex; align-items: center; gap: 22px; }
+        .icon-group { display: flex; align-items: center; gap: 25px; }
         .icon-btn { font-size: 22px; cursor: pointer; color: #fff; transition: 0.3s; }
-        .icon-btn:hover { color: var(--main-red); transform: scale(1.1); }
+        .icon-btn:hover { color: var(--main-red); transform: scale(1.1); text-shadow: 0 0 15px var(--main-red); }
 
         .search-container { 
-            display: flex; align-items: center; background: #0f0f0f; border-radius: 10px; 
-            padding: 8px 18px; flex-grow: 1; max-width: 450px; margin: 0 25px; border: 1px solid #222; 
+            display: flex; align-items: center; background: rgba(15, 15, 15, 0.8); border-radius: 12px; 
+            padding: 10px 20px; flex-grow: 1; max-width: 450px; margin: 0 40px; border: 1px solid #333; 
         }
-        .search-container input { background: transparent; border: none; color: white; outline: none; width: 100%; margin-left: 10px; }
+        .search-container input { background: transparent; border: none; color: white; outline: none; width: 100%; margin-left: 12px; font-size: 15px; }
 
-        /* LOGIN */
+        /* LOGIN - CANTO SUPERIOR DIREITO CORRIGIDO */
+        .login-section { 
+            margin-left: auto; /* Empurra para a direita total */
+            display: flex; flex-direction: column; align-items: center; cursor: pointer; transition: 0.3s;
+        }
+        .login-section:hover .login-box { transform: scale(1.05); }
         .login-box { 
-            width: 35px; height: 35px; border: 2px solid var(--main-red); 
-            background: #000; border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer;
+            width: 38px; height: 38px; border: 2px solid var(--main-red); 
+            background: #000; border-radius: 8px; display: flex; align-items: center; justify-content: center; 
         }
-        .login-box.active-user { border-color: var(--main-green); box-shadow: 0 0 10px var(--main-green); color: var(--main-green); }
+        .login-box.active-user { border-color: var(--main-green); box-shadow: 0 0 15px var(--main-green); color: var(--main-green); }
+        .login-section span { font-size: 9px; text-transform: uppercase; margin-top: 5px; font-weight: 800; letter-spacing: 1px; }
 
-        /* MODAL E TELAS */
-        .modal, .game-overlay { 
+        /* SIDEBAR */
+        .sidebar { 
+            position: fixed; left: -280px; top: 0; width: 270px; height: 100%; 
+            background: var(--panel); transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+            z-index: 2001; padding-top: 90px; border-right: 2px solid var(--main-red);
+        }
+        .sidebar.active { left: 0; box-shadow: 20px 0 40px rgba(0,0,0,0.9); }
+        .nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 25px; }
+        .nav-item { 
+            text-align: center; cursor: pointer; padding: 18px 5px; background: #111; 
+            border: 1px solid #222; border-radius: 12px; transition: 0.3s;
+        }
+        .nav-item:hover { border-color: var(--main-red); background: #1a0000; transform: translateY(-3px); }
+
+        /* CONTEÚDO CENTRAL */
+        .main-content { padding: 160px 20px 60px; text-align: center; display: flex; justify-content: center; }
+        .welcome-card { 
+            max-width: 800px; width: 100%; padding: 60px; 
+            background: var(--glass); border-radius: 30px; border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8); backdrop-filter: blur(15px);
+        }
+
+        /* MODAIS */
+        .modal { 
             display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
-            background: #000; border: 2px solid var(--main-red); padding: 35px; z-index: 2000; 
-            width: 340px; border-radius: 15px; text-align: center;
+            background: #000; border: 2px solid var(--main-red); padding: 40px; z-index: 3000; 
+            width: 350px; border-radius: 20px; text-align: center; box-shadow: 0 0 60px rgba(0,0,0,1);
         }
-        .show { display: block !important; }
-        
-        .game-overlay { width: 90%; max-width: 500px; height: 400px; border-color: var(--main-red); }
+        .show { display: block !important; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translate(-50%, -48%); } to { opacity: 1; transform: translate(-50%, -50%); } }
 
-        .btn-action { width: 100%; padding: 12px; margin: 6px 0; border: none; cursor: pointer; font-weight: bold; border-radius: 6px; font-family: inherit; }
+        .btn-action { width: 100%; padding: 14px; margin: 8px 0; border: none; cursor: pointer; font-weight: bold; border-radius: 8px; transition: 0.3s; font-family: inherit; }
         .btn-confirm { background: var(--main-red); color: white; }
-        .btn-ghost { background: transparent; border: 1px solid white; color: white; }
+        .btn-confirm:hover { background: #d00; box-shadow: 0 0 15px rgba(255,0,0,0.4); }
+        .btn-ghost { background: transparent; border: 1px solid #444; color: white; }
+        .btn-ghost:hover { border-color: white; background: rgba(255,255,255,0.05); }
 
-        /* CONTEÚDO */
-        .main-content { padding: 140px 20px; text-align: center; }
         #resultArea { 
-            margin-top: 30px; padding: 25px; border-radius: 15px;
-            background: rgba(255, 0, 0, 0.05); border: 1px solid rgba(255, 0, 0, 0.1);
-            color: #eee; display: none;
+            margin-top: 35px; padding: 25px; border-radius: 15px; font-size: 18px;
+            background: rgba(255, 0, 0, 0.08); border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff; display: none; line-height: 1.6;
         }
 
-        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1999; }
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 2000; backdrop-filter: blur(4px); }
+        .overlay.active { display: block; }
     </style>
 </head>
 <body>
 
     <div class="top-bar">
         <div class="icon-group">
-            <i class="fas fa-bars icon-btn" onclick="toggleSidebar()"></i>
-            <i class="fas fa-gamepad icon-btn" onclick="openGame()" title="Teste de QI"></i>
+            <i class="fas fa-bars icon-btn" onclick="toggleSidebar()" title="Menu"></i>
+            <i class="fas fa-gamepad icon-btn" onclick="openModal('gameModal')" title="Arena QI"></i>
         </div>
 
         <div class="search-container">
-            <i class="fas fa-search"></i>
-            <input type="text" placeholder="Consultar Oráculo..." id="searchInp">
+            <i class="fas fa-search" style="color: #666;"></i>
+            <input type="text" placeholder="Consultar o Oráculo do Reino..." id="searchInp">
         </div>
 
         <div class="icon-group">
-            <i class="fas fa-history icon-btn" onclick="openModal('histModal')"></i>
-            <i class="fas fa-crown icon-btn" onclick="openModal('admModal')"></i>
+            <i class="fas fa-history icon-btn" onclick="openModal('histModal')" title="Histórico"></i>
+            <i class="fas fa-crown icon-btn" onclick="openModal('admModal')" title="Painel Admin"></i>
         </div>
 
-        <div class="login-box" id="userBox" onclick="openModal('logModal')"><i class="fas fa-user"></i></div>
+        <div class="login-section" onclick="openModal('logModal')">
+            <div class="login-box" id="userBox"><i class="fas fa-user"></i></div>
+            <span id="userStatus">Entrar</span>
+        </div>
+    </div>
+
+    <div class="sidebar" id="sidebar">
+        <div class="nav-grid">
+            <div class="nav-item" onclick="changeTab('Início')"><i class="fas fa-home"></i><span>Início</span></div>
+            <div class="nav-item" onclick="changeTab('Sombras')"><i class="fas fa-moon"></i><span>Sombras</span></div>
+            <div class="nav-item" onclick="changeTab('Runas')"><i class="fas fa-scroll"></i><span>Runas</span></div>
+            <div class="nav-item" onclick="changeTab('Alquimia')"><i class="fas fa-flask"></i><span>Alquimia</span></div>
+            <div class="nav-item" onclick="changeTab('Arena')"><i class="fas fa-khanda"></i><span>Arena</span></div>
+            <div class="nav-item" onclick="changeTab('Galeria')"><i class="fas fa-image"></i><span>Galeria</span></div>
+            <div class="nav-item" onclick="changeTab('Murmúrios')"><i class="fas fa-comment"></i><span>Murmúrios</span></div>
+            <div class="nav-item" onclick="changeTab('Forja')"><i class="fas fa-cog"></i><span>Forja</span></div>
+            <div class="nav-item" onclick="changeTab('Santuário')"><i class="fas fa-lock"></i><span>Santuário</span></div>
+            <div class="nav-item" onclick="changeTab('Mapa')"><i class="fas fa-map"></i><span>Mapa</span></div>
+        </div>
     </div>
 
     <div class="main-content">
-        <div style="max-width: 800px; margin: 0 auto; background: rgba(10,10,10,0.9); padding: 50px; border-radius: 20px; border: 1px solid #111;">
-            <h1 id="displayTitle">Reino de Magia Digital</h1>
-            <p id="displayText">O conhecimento aguarda o mestre.</p>
+        <div class="welcome-card">
+            <h1 id="displayTitle" style="font-size: 40px; margin-bottom: 10px; letter-spacing: 2px;">Grimório Digital</h1>
+            <p id="displayText" style="color: #aaa; font-size: 18px;">O destino do reino está em suas mãos.</p>
             <div id="resultArea"></div>
         </div>
     </div>
 
-    <div id="gameModal" class="game-overlay">
+    <div id="admModal" class="modal">
+        <h3 style="color: var(--main-red); margin-bottom: 20px;">ACESSAR TRONO</h3>
+        <input type="password" id="admKey" placeholder="CHAVE MÍSTICA" style="width:100%; padding:14px; background:#111; border:1px solid #333; color:white; border-radius:8px; margin-bottom:15px; box-sizing:border-box;">
+        <button class="btn-action btn-confirm" onclick="checkAdm()"><i class="fas fa-paper-plane"></i> CONFIRMAR</button>
+        <button class="btn-action btn-ghost" onclick="closeAll()">VOLTAR</button>
+    </div>
+
+    <div id="gameModal" class="modal">
         <div id="gameLobby">
             <h2 style="color:var(--main-red)">ARENA DE QI</h2>
-            <p>Prove sua sabedoria para o Oráculo.</p>
-            <button class="btn-action btn-confirm" onclick="startCountdown()">JOGAR (PLAY)</button>
-            <button class="btn-action btn-ghost" onclick="closeAll()">VOLTAR</button>
+            <p style="margin-bottom: 25px;">Prove que você é digno da coroa.</p>
+            <button class="btn-action btn-confirm" onclick="startGame()">INICIAR DESAFIO</button>
+            <button class="btn-action btn-ghost" onclick="closeAll()">DESISTIR</button>
         </div>
-        <div id="gamePlay" style="display:none">
-            <h1 id="timer" style="font-size: 50px; color: var(--main-red);">3</h1>
-            <div id="quizContent" style="display:none">
-                <p id="questionText">Carregando enigma...</p>
-                <div id="options"></div>
+        <div id="gameScene" style="display:none">
+            <h1 id="countText" style="font-size: 70px; color: var(--main-red);">3</h1>
+            <div id="quizArea" style="display:none">
+                <p id="qTitle" style="font-size: 20px; font-weight: bold; margin-bottom: 20px;"></p>
+                <div id="qOptions"></div>
             </div>
         </div>
     </div>
 
-    <div id="admModal" class="modal">
-        <h3>Portal Admin</h3>
-        <input type="password" id="admKey" placeholder="SENHA" style="width:100%; padding:10px; margin:10px 0; background:#0a0a0a; border:1px solid #333; color:white;">
-        <button class="btn-action btn-confirm" onclick="checkAdm()">ENVIAR</button>
-        <button class="btn-action btn-ghost" onclick="closeAll()">VOLTAR</button>
-    </div>
-
     <div id="logModal" class="modal">
-        <h3 id="logTitle">Acesso</h3>
+        <h3>Portal de Acesso</h3>
         <div id="authInputs">
-            <input type="text" id="uName" placeholder="NOME" style="width:100%; padding:10px; margin:10px 0; background:#0a0a0a; border:1px solid #333; color:white;">
-            <input type="password" id="uPass" placeholder="SENHA" style="width:100%; padding:10px; margin:10px 0; background:#0a0a0a; border:1px solid #333; color:white;">
-            <button class="btn-action btn-confirm" onclick="doAuth('login')">ENTRAR</button>
-            <button class="btn-action btn-ghost" onclick="doAuth('reg')">CADASTRAR</button>
+            <input type="text" id="uName" placeholder="NOME DO MESTRE" style="width:100%; padding:14px; background:#111; border:1px solid #333; color:white; border-radius:8px; margin-bottom:12px; box-sizing:border-box;">
+            <input type="password" id="uPass" placeholder="SENHA SAGRADA" style="width:100%; padding:14px; background:#111; border:1px solid #333; color:white; border-radius:8px; margin-bottom:12px; box-sizing:border-box;">
+            <button class="btn-action btn-confirm" onclick="doAuth('login')">ENTRAR NO REINO</button>
+            <button class="btn-action btn-ghost" onclick="doAuth('reg')">CRIAR PERFIL</button>
+            <button class="btn-action btn-ghost" style="border:none" onclick="closeAll()">VOLTAR</button>
         </div>
         <div id="loggedOptions" style="display:none">
-            <p id="whoIs"></p>
-            <button class="btn-action btn-confirm" style="background:#444" onclick="doLogout()">SAIR</button>
+            <p id="whoIs" style="color:var(--main-green); font-size: 18px; margin-bottom: 20px;"></p>
+            <button class="btn-action btn-confirm" style="background:#444" onclick="doLogout()">SAIR (LOGOUT)</button>
             <button class="btn-action btn-ghost" onclick="closeAll()">VOLTAR</button>
         </div>
     </div>
 
     <div id="histModal" class="modal">
-        <h3>Memórias</h3>
-        <div id="hList" style="max-height: 200px; overflow-y: auto; text-align: left;"></div>
-        <button class="btn-action btn-ghost" onclick="closeAll()">VOLTAR</button>
+        <h3>Minhas Memórias</h3>
+        <div id="hList" style="max-height: 250px; overflow-y: auto; text-align: left; padding-right: 10px;"></div>
+        <button class="btn-action btn-ghost" onclick="closeAll()" style="margin-top:20px;">VOLTAR</button>
     </div>
 
     <div class="overlay" id="overlay" onclick="closeAll()"></div>
@@ -146,86 +198,114 @@
         let loggedUser = null;
         let accounts = JSON.parse(localStorage.getItem('reino_contas') || "{}");
 
+        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('active'); document.getElementById('overlay').classList.toggle('active'); }
         function openModal(id) { closeAll(); document.getElementById(id).classList.add('show'); document.getElementById('overlay').classList.add('active'); }
-        function openGame() { openModal('gameModal'); }
         function closeAll() { 
-            document.querySelectorAll('.modal, .game-overlay').forEach(m => m.classList.remove('show')); 
-            document.getElementById('overlay').classList.remove('active');
+            document.querySelectorAll('.modal').forEach(m => m.classList.remove('show')); 
+            document.getElementById('sidebar').classList.remove('active'); 
+            document.getElementById('overlay').classList.remove('active'); 
             resetGame();
         }
 
-        // LÓGICA DO JOGO DE QI
-        function startCountdown() {
+        function checkAdm() {
+            if(document.getElementById('admKey').value === '15092011') { alert("Bem-vindo de volta, Administrador Supremo! 🛡️"); closeAll(); } 
+            else { alert("Acesso Negado!"); }
+        }
+
+        // JOGO QI
+        const questions = [
+            { q: "Qual o próximo: 1, 1, 2, 3, 5, ...?", o: ["7", "8", "9"], a: 1 },
+            { q: "O que tem 4 pernas de manhã, 2 à tarde e 3 à noite?", o: ["Cão", "Homem", "Gato"], a: 1 }
+        ];
+        let qIdx = 0;
+
+        function startGame() {
             document.getElementById('gameLobby').style.display = 'none';
-            document.getElementById('gamePlay').style.display = 'block';
-            let count = 3;
+            document.getElementById('gameScene').style.display = 'block';
+            let c = 3;
             const t = setInterval(() => {
-                count--;
-                document.getElementById('timer').innerText = count > 0 ? count : "GO!";
-                if(count < 0) {
-                    clearInterval(t);
-                    document.getElementById('timer').style.display = 'none';
-                    document.getElementById('quizContent').style.display = 'block';
-                    loadQuestion();
-                }
+                c--;
+                document.getElementById('countText').innerText = c > 0 ? c : "GO!";
+                if(c < 0) { clearInterval(t); document.getElementById('countText').style.display = 'none'; document.getElementById('quizArea').style.display = 'block'; loadQ(); }
             }, 1000);
         }
 
-        function loadQuestion() {
-            document.getElementById('questionText').innerText = "Quanto é 2 + 2 no mundo binário?";
-            document.getElementById('options').innerHTML = `
-                <button class="btn-action btn-ghost" onclick="alert('Acertou!')">100</button>
-                <button class="btn-action btn-ghost" onclick="alert('Errou!')">4</button>
-            `;
+        function loadQ() {
+            const data = questions[qIdx];
+            document.getElementById('qTitle').innerText = data.q;
+            document.getElementById('qOptions').innerHTML = data.o.map((o, i) => `<button class="btn-action btn-ghost" onclick="checkQ(${i})">${o}</button>`).join('');
+        }
+
+        function checkQ(i) {
+            if(i === questions[qIdx].a) alert("Resposta Correta! ✨");
+            else alert("Energia errada... tente de novo.");
+            qIdx++;
+            if(qIdx < questions.length) loadQ();
+            else { alert("Teste Finalizado!"); closeAll(); }
         }
 
         function resetGame() {
+            qIdx = 0;
             document.getElementById('gameLobby').style.display = 'block';
-            document.getElementById('gamePlay').style.display = 'none';
-            document.getElementById('timer').style.display = 'block';
-            document.getElementById('timer').innerText = "3";
-            document.getElementById('quizContent').style.display = 'none';
+            document.getElementById('gameScene').style.display = 'none';
+            document.getElementById('countText').style.display = 'block';
+            document.getElementById('countText').innerText = "3";
+            document.getElementById('quizArea').style.display = 'none';
         }
 
         // PESQUISA
         document.getElementById('searchInp').addEventListener('keypress', (e) => {
             if(e.key === 'Enter') {
-                const q = document.getElementById('searchInp').value;
-                const r = "✨ Oráculo: Revelação selada sobre '" + q + "'.";
+                const val = document.getElementById('searchInp').value;
+                if(!val) return;
+                const r = "✨ O Oráculo responde: A sabedoria que busca sobre '" + val + "' está gravada nas estrelas deste reino.";
                 const area = document.getElementById('resultArea');
                 area.innerText = r; area.style.display = 'block';
                 if(loggedUser) {
-                    accounts[loggedUser].searches.unshift({q, r});
+                    accounts[loggedUser].searches.unshift({q: val, r: r});
                     localStorage.setItem('reino_contas', JSON.stringify(accounts));
+                    updateHUI();
                 }
             }
         });
 
-        // ADMIN E AUTH (SIMPLIFICADO PARA O EXEMPLO)
-        function checkAdm() { if(document.getElementById('admKey').value === '15092011') alert("Admin OK!"); closeAll(); }
-        
+        // LOGIN / LOGOUT
         function doAuth(type) {
             const n = document.getElementById('uName').value;
             const s = document.getElementById('uPass').value;
-            if(type === 'reg') { accounts[n] = {pass: s, searches: []}; localStorage.setItem('reino_contas', JSON.stringify(accounts)); alert("Salvo!"); }
-            else if(accounts[n] && accounts[n].pass === s) { 
-                loggedUser = n; 
+            if(!n || !s) return;
+            if(type === 'reg') { accounts[n] = {pass: s, searches: []}; localStorage.setItem('reino_contas', JSON.stringify(accounts)); alert("Mestre registrado!"); }
+            else if(accounts[n] && accounts[n].pass === s) {
+                loggedUser = n;
                 document.getElementById('userBox').classList.add('active-user');
+                document.getElementById('userStatus').innerText = "Online";
+                document.getElementById('displayTitle').innerText = "Grimório de " + n;
                 document.getElementById('authInputs').style.display = 'none';
                 document.getElementById('loggedOptions').style.display = 'block';
-                document.getElementById('whoIs').innerText = "Mestre: " + n;
+                document.getElementById('whoIs').innerText = "Bem-vindo, " + n;
+                updateHUI();
                 closeAll();
-            }
+            } else { alert("Chave incorreta!"); }
         }
 
         function doLogout() {
             loggedUser = null;
             document.getElementById('userBox').classList.remove('active-user');
+            document.getElementById('userStatus').innerText = "Entrar";
+            document.getElementById('displayTitle').innerText = "Grimório Digital";
             document.getElementById('authInputs').style.display = 'block';
             document.getElementById('loggedOptions').style.display = 'none';
             document.getElementById('resultArea').style.display = 'none';
             closeAll();
         }
+
+        function updateHUI() {
+            if(!loggedUser) return;
+            document.getElementById('hList').innerHTML = accounts[loggedUser].searches.map(s => `<div style="padding:12px; border-bottom:1px solid #222; cursor:pointer" onclick="restore('${s.r}')"><i class="fas fa-scroll" style="margin-right:10px; color:var(--main-red)"></i> ${s.q}</div>`).join('');
+        }
+
+        function restore(t) { document.getElementById('resultArea').innerText = t; document.getElementById('resultArea').style.display = 'block'; closeAll(); }
+        function changeTab(n) { document.getElementById('displayTitle').innerText = n; toggleSidebar(); }
     </script>
 </body>
 </html>
