@@ -16,7 +16,7 @@
             background-image: 
                 linear-gradient(rgba(0,0,0,0.92), rgba(0,0,0,0.92)),
                 url('https://www.transparenttextures.com/patterns/carbon-fibre.png'),
-                radial-gradient(circle at 10% 20%, rgba(255, 0, 0, 0.08) 0%, transparent 25%);
+                radial-gradient(circle at 10% 20%, rgba(255, 0, 0, 0.1) 0%, transparent 25%);
         }
 
         /* BARRA SUPERIOR */
@@ -27,140 +27,117 @@
 
         .icon-group { display: flex; align-items: center; gap: 22px; }
         .icon-btn { font-size: 22px; cursor: pointer; color: #fff; transition: 0.3s; }
-        .icon-btn:hover { color: var(--main-red); transform: scale(1.15); text-shadow: 0 0 10px var(--main-red); }
+        .icon-btn:hover { color: var(--main-red); transform: scale(1.1); }
 
         .search-container { 
             display: flex; align-items: center; background: #0f0f0f; border-radius: 10px; 
             padding: 8px 18px; flex-grow: 1; max-width: 450px; margin: 0 25px; border: 1px solid #222; 
         }
-        .search-container input { background: transparent; border: none; color: white; outline: none; width: 100%; margin-left: 10px; font-size: 15px; }
+        .search-container input { background: transparent; border: none; color: white; outline: none; width: 100%; margin-left: 10px; }
 
-        /* LOGIN (DIREITA) */
-        .login-section { margin-left: auto; text-align: center; cursor: pointer; padding: 0 10px; }
+        /* LOGIN */
         .login-box { 
             width: 35px; height: 35px; border: 2px solid var(--main-red); 
-            background: #000; border-radius: 6px; display: flex; align-items: center; justify-content: center; transition: 0.4s;
+            background: #000; border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer;
         }
-        .login-box.active-user { border-color: var(--main-green); box-shadow: 0 0 12px var(--main-green); color: var(--main-green); }
-        .login-section span { font-size: 10px; text-transform: uppercase; display: block; margin-top: 4px; font-weight: bold; }
+        .login-box.active-user { border-color: var(--main-green); box-shadow: 0 0 10px var(--main-green); color: var(--main-green); }
 
-        /* SIDEBAR ORIGINÁRIA */
-        .sidebar { 
-            position: fixed; left: -280px; top: 0; width: 270px; height: 100%; 
-            background: var(--panel); transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
-            z-index: 1001; padding-top: 90px; border-right: 2px solid var(--main-red);
-        }
-        .sidebar.active { left: 0; box-shadow: 15px 0 30px rgba(0,0,0,0.9); }
-        .nav-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 20px; }
-        .nav-item { 
-            text-align: center; cursor: pointer; padding: 18px 5px; background: #111; 
-            border: 1px solid #222; border-radius: 10px; transition: 0.3s;
-        }
-        .nav-item:hover { border-color: var(--main-red); background: #1a0000; transform: translateY(-4px); }
-        .nav-item i { font-size: 22px; display: block; margin-bottom: 6px; }
-        .nav-item span { font-size: 11px; font-weight: bold; text-transform: uppercase; }
-
-        /* CONTEÚDO */
-        .main-content { padding: 140px 20px 40px; text-align: center; }
-        .welcome-card { 
-            max-width: 850px; margin: 0 auto; padding: 50px; 
-            background: rgba(10, 10, 10, 0.85); border-radius: 25px; border: 1px solid #1a1a1a;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.7); backdrop-filter: blur(5px);
-        }
-
-        /* MODAIS */
-        .modal { 
+        /* MODAL E TELAS */
+        .modal, .game-overlay { 
             display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
             background: #000; border: 2px solid var(--main-red); padding: 35px; z-index: 2000; 
-            width: 320px; border-radius: 15px; box-shadow: 0 0 40px rgba(255,0,0,0.2);
+            width: 340px; border-radius: 15px; text-align: center;
         }
-        .modal.show { display: block; animation: popIn 0.3s ease-out; }
-        .modal h3 { margin-top: 0; color: var(--main-red); font-size: 16px; text-transform: uppercase; letter-spacing: 1px; }
-        .modal input { width: 100%; padding: 12px; margin: 12px 0; background: #0a0a0a; border: 1px solid #333; color: white; border-radius: 5px; box-sizing: border-box; }
+        .show { display: block !important; }
         
-        .btn-action { width: 100%; padding: 12px; margin: 6px 0; border: none; cursor: pointer; font-weight: bold; border-radius: 6px; transition: 0.3s; }
+        .game-overlay { width: 90%; max-width: 500px; height: 400px; border-color: var(--main-red); }
+
+        .btn-action { width: 100%; padding: 12px; margin: 6px 0; border: none; cursor: pointer; font-weight: bold; border-radius: 6px; font-family: inherit; }
         .btn-confirm { background: var(--main-red); color: white; }
         .btn-ghost { background: transparent; border: 1px solid white; color: white; }
-        .btn-exit { background: #444; color: #fff; margin-top: 15px; font-size: 11px; }
-        .btn-exit:hover { background: #600; }
 
-        @keyframes popIn { from { transform: translate(-50%, -45%); opacity: 0; } to { transform: translate(-50%, -50%); opacity: 1; } }
-        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 998; }
-        .overlay.active { display: block; }
+        /* CONTEÚDO */
+        .main-content { padding: 140px 20px; text-align: center; }
+        #resultArea { 
+            margin-top: 30px; padding: 25px; border-radius: 15px;
+            background: rgba(255, 0, 0, 0.05); border: 1px solid rgba(255, 0, 0, 0.1);
+            color: #eee; display: none;
+        }
+
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1999; }
     </style>
 </head>
 <body>
 
     <div class="top-bar">
         <div class="icon-group">
-            <i class="fas fa-bars icon-btn" onclick="toggleSidebar()" title="Menu"></i>
-            <i class="fas fa-gamepad icon-btn" onclick="alert('Abra o Teste de QI pela Arena!')" title="Jogos"></i>
+            <i class="fas fa-bars icon-btn" onclick="toggleSidebar()"></i>
+            <i class="fas fa-gamepad icon-btn" onclick="openGame()" title="Teste de QI"></i>
         </div>
 
         <div class="search-container">
             <i class="fas fa-search"></i>
-            <input type="text" placeholder="Consultar o Oráculo..." id="searchInp">
+            <input type="text" placeholder="Consultar Oráculo..." id="searchInp">
         </div>
 
         <div class="icon-group">
-            <i class="fas fa-history icon-btn" onclick="openModal('histModal')" title="Histórico"></i>
-            <i class="fas fa-crown icon-btn" onclick="openModal('admModal')" title="Admin"></i>
+            <i class="fas fa-history icon-btn" onclick="openModal('histModal')"></i>
+            <i class="fas fa-crown icon-btn" onclick="openModal('admModal')"></i>
         </div>
 
-        <div class="login-section" onclick="openModal('logModal')">
-            <div class="login-box" id="userBox"><i class="fas fa-user"></i></div>
-            <span id="userStatus">Login</span>
-        </div>
-    </div>
-
-    <div class="sidebar" id="sidebar">
-        <div class="nav-grid">
-            <div class="nav-item" onclick="changeTab('Início')"><i class="fas fa-home"></i><span>Início</span></div>
-            <div class="nav-item" onclick="changeTab('Sombras')"><i class="fas fa-moon"></i><span>Sombras</span></div>
-            <div class="nav-item" onclick="changeTab('Runas')"><i class="fas fa-scroll"></i><span>Runas</span></div>
-            <div class="nav-item" onclick="changeTab('Sincronia')"><i class="fas fa-spa"></i><span>Sincronia</span></div>
-            <div class="nav-item" onclick="changeTab('Alquimia')"><i class="fas fa-flask"></i><span>Alquimia</span></div>
-            <div class="nav-item" onclick="changeTab('Arena')"><i class="fas fa-khanda"></i><span>Arena</span></div>
-            <div class="nav-item" onclick="changeTab('Galeria')"><i class="fas fa-image"></i><span>Galeria</span></div>
-            <div class="nav-item" onclick="changeTab('Murmúrios')"><i class="fas fa-comment"></i><span>Murmúrios</span></div>
-            <div class="nav-item" onclick="changeTab('Forja')"><i class="fas fa-cog"></i><span>Forja</span></div>
-            <div class="nav-item" onclick="changeTab('Santuário')"><i class="fas fa-lock"></i><span>Santuário</span></div>
-        </div>
+        <div class="login-box" id="userBox" onclick="openModal('logModal')"><i class="fas fa-user"></i></div>
     </div>
 
     <div class="main-content">
-        <div class="welcome-card">
-            <h1 id="displayTitle">Grimório de Magia Digital</h1>
-            <p id="displayText">O conhecimento aguarda o mestre logado.</p>
-            <hr style="border: 0; border-top: 1px solid #222; margin: 25px 0;">
-            <div id="resultArea" style="color: #999; font-style: italic; min-height: 50px;"></div>
+        <div style="max-width: 800px; margin: 0 auto; background: rgba(10,10,10,0.9); padding: 50px; border-radius: 20px; border: 1px solid #111;">
+            <h1 id="displayTitle">Reino de Magia Digital</h1>
+            <p id="displayText">O conhecimento aguarda o mestre.</p>
+            <div id="resultArea"></div>
         </div>
     </div>
 
-    <div id="logModal" class="modal">
-        <h3 id="modalTitle">Portal de Acesso</h3>
-        <div id="authInputs">
-            <input type="text" id="uName" placeholder="NOME DO MESTRE">
-            <input type="password" id="uPass" placeholder="SENHA SAGRADA">
-            <button class="btn-action btn-confirm" onclick="doAuth('login')">ENTRAR NO REINO</button>
-            <button class="btn-action btn-ghost" onclick="doAuth('reg')">CADASTRAR-SE</button>
+    <div id="gameModal" class="game-overlay">
+        <div id="gameLobby">
+            <h2 style="color:var(--main-red)">ARENA DE QI</h2>
+            <p>Prove sua sabedoria para o Oráculo.</p>
+            <button class="btn-action btn-confirm" onclick="startCountdown()">JOGAR (PLAY)</button>
+            <button class="btn-action btn-ghost" onclick="closeAll()">VOLTAR</button>
         </div>
-        <div id="loggedOptions" style="display:none; text-align: center;">
-            <p id="whoIs" style="color: var(--main-green); font-weight: bold;"></p>
-            <button class="btn-action btn-exit" onclick="doLogout()">ENCERRAR SESSÃO (SAIR)</button>
+        <div id="gamePlay" style="display:none">
+            <h1 id="timer" style="font-size: 50px; color: var(--main-red);">3</h1>
+            <div id="quizContent" style="display:none">
+                <p id="questionText">Carregando enigma...</p>
+                <div id="options"></div>
+            </div>
         </div>
     </div>
 
     <div id="admModal" class="modal">
-        <h3>Acesso Administrador</h3>
-        <input type="password" id="admKey" placeholder="CÓDIGO DE ACESSO">
-        <button class="btn-action btn-confirm" onclick="checkAdm()"><i class="fas fa-paper-plane"></i> ENVIAR</button>
+        <h3>Portal Admin</h3>
+        <input type="password" id="admKey" placeholder="SENHA" style="width:100%; padding:10px; margin:10px 0; background:#0a0a0a; border:1px solid #333; color:white;">
+        <button class="btn-action btn-confirm" onclick="checkAdm()">ENVIAR</button>
+        <button class="btn-action btn-ghost" onclick="closeAll()">VOLTAR</button>
+    </div>
+
+    <div id="logModal" class="modal">
+        <h3 id="logTitle">Acesso</h3>
+        <div id="authInputs">
+            <input type="text" id="uName" placeholder="NOME" style="width:100%; padding:10px; margin:10px 0; background:#0a0a0a; border:1px solid #333; color:white;">
+            <input type="password" id="uPass" placeholder="SENHA" style="width:100%; padding:10px; margin:10px 0; background:#0a0a0a; border:1px solid #333; color:white;">
+            <button class="btn-action btn-confirm" onclick="doAuth('login')">ENTRAR</button>
+            <button class="btn-action btn-ghost" onclick="doAuth('reg')">CADASTRAR</button>
+        </div>
+        <div id="loggedOptions" style="display:none">
+            <p id="whoIs"></p>
+            <button class="btn-action btn-confirm" style="background:#444" onclick="doLogout()">SAIR</button>
+            <button class="btn-action btn-ghost" onclick="closeAll()">VOLTAR</button>
+        </div>
     </div>
 
     <div id="histModal" class="modal">
-        <h3>Memórias de Busca</h3>
-        <div id="hList" style="max-height: 250px; overflow-y: auto; text-align: left; font-size: 13px;"></div>
-        <button class="btn-action btn-ghost" onclick="closeAll()" style="margin-top:10px;">VOLTAR</button>
+        <h3>Memórias</h3>
+        <div id="hList" style="max-height: 200px; overflow-y: auto; text-align: left;"></div>
+        <button class="btn-action btn-ghost" onclick="closeAll()">VOLTAR</button>
     </div>
 
     <div class="overlay" id="overlay" onclick="closeAll()"></div>
@@ -169,95 +146,86 @@
         let loggedUser = null;
         let accounts = JSON.parse(localStorage.getItem('reino_contas') || "{}");
 
-        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('active'); document.getElementById('overlay').classList.toggle('active'); }
-        function openModal(id) { document.getElementById(id).classList.add('show'); document.getElementById('overlay').classList.add('active'); }
-        function closeAll() { document.querySelectorAll('.modal').forEach(m => m.classList.remove('show')); document.getElementById('sidebar').classList.remove('active'); document.getElementById('overlay').classList.remove('active'); }
-
-        function checkAdm() {
-            if(document.getElementById('admKey').value === '15092011') { alert("Acesso de Admin Confirmado! 🛡️"); closeAll(); } 
-            else { alert("Código Incorreto! ⚔️"); }
+        function openModal(id) { closeAll(); document.getElementById(id).classList.add('show'); document.getElementById('overlay').classList.add('active'); }
+        function openGame() { openModal('gameModal'); }
+        function closeAll() { 
+            document.querySelectorAll('.modal, .game-overlay').forEach(m => m.classList.remove('show')); 
+            document.getElementById('overlay').classList.remove('active');
+            resetGame();
         }
 
-        // LOGIN / LOGOUT
-        function doAuth(action) {
-            const n = document.getElementById('uName').value;
-            const s = document.getElementById('uPass').value;
-            if(!n || !s) return;
-
-            if(action === 'reg') {
-                accounts[n] = { pass: s, searches: [] };
-                localStorage.setItem('reino_contas', JSON.stringify(accounts));
-                alert("Mestre " + n + " cadastrado no registro místico!");
-            } else {
-                if(accounts[n] && accounts[n].pass === s) {
-                    loggedUser = n;
-                    loginSuccess();
-                } else { alert("Chave ou Nome inválidos!"); }
-            }
+        // LÓGICA DO JOGO DE QI
+        function startCountdown() {
+            document.getElementById('gameLobby').style.display = 'none';
+            document.getElementById('gamePlay').style.display = 'block';
+            let count = 3;
+            const t = setInterval(() => {
+                count--;
+                document.getElementById('timer').innerText = count > 0 ? count : "GO!";
+                if(count < 0) {
+                    clearInterval(t);
+                    document.getElementById('timer').style.display = 'none';
+                    document.getElementById('quizContent').style.display = 'block';
+                    loadQuestion();
+                }
+            }, 1000);
         }
 
-        function loginSuccess() {
-            document.getElementById('userBox').classList.add('active-user');
-            document.getElementById('userStatus').innerText = "Online";
-            document.getElementById('displayTitle').innerText = "Bem-vindo, " + loggedUser;
-            document.getElementById('displayText').innerText = "Suas memórias foram restauradas.";
-            
-            // Troca interface do modal
-            document.getElementById('authInputs').style.display = 'none';
-            document.getElementById('loggedOptions').style.display = 'block';
-            document.getElementById('whoIs').innerText = "Mestre: " + loggedUser;
-            document.getElementById('modalTitle').innerText = "Conta Ativa";
-            
-            updateHUI();
-            closeAll();
+        function loadQuestion() {
+            document.getElementById('questionText').innerText = "Quanto é 2 + 2 no mundo binário?";
+            document.getElementById('options').innerHTML = `
+                <button class="btn-action btn-ghost" onclick="alert('Acertou!')">100</button>
+                <button class="btn-action btn-ghost" onclick="alert('Errou!')">4</button>
+            `;
         }
 
-        function doLogout() {
-            loggedUser = null;
-            // Reset Visual
-            document.getElementById('userBox').classList.remove('active-user');
-            document.getElementById('userStatus').innerText = "Login";
-            document.getElementById('displayTitle').innerText = "Grimório de Magia Digital";
-            document.getElementById('displayText').innerText = "O conhecimento aguarda o mestre logado.";
-            document.getElementById('resultArea').innerText = "";
-            document.getElementById('hList').innerHTML = "";
-            
-            // Volta interface do modal
-            document.getElementById('authInputs').style.display = 'block';
-            document.getElementById('loggedOptions').style.display = 'none';
-            document.getElementById('modalTitle').innerText = "Portal de Acesso";
-            document.getElementById('uName').value = "";
-            document.getElementById('uPass').value = "";
-            
-            alert("Você saiu do reino. Até breve!");
-            closeAll();
+        function resetGame() {
+            document.getElementById('gameLobby').style.display = 'block';
+            document.getElementById('gamePlay').style.display = 'none';
+            document.getElementById('timer').style.display = 'block';
+            document.getElementById('timer').innerText = "3";
+            document.getElementById('quizContent').style.display = 'none';
         }
 
-        // BUSCA
+        // PESQUISA
         document.getElementById('searchInp').addEventListener('keypress', (e) => {
             if(e.key === 'Enter') {
                 const q = document.getElementById('searchInp').value;
-                const r = "Oráculo: Resultado para sua busca sobre '" + q + "'.";
-                document.getElementById('resultArea').innerText = r;
+                const r = "✨ Oráculo: Revelação selada sobre '" + q + "'.";
+                const area = document.getElementById('resultArea');
+                area.innerText = r; area.style.display = 'block';
                 if(loggedUser) {
-                    accounts[loggedUser].searches.unshift({q: q, r: r});
+                    accounts[loggedUser].searches.unshift({q, r});
                     localStorage.setItem('reino_contas', JSON.stringify(accounts));
-                    updateHUI();
                 }
             }
         });
 
-        function updateHUI() {
-            if(!loggedUser) return;
-            const list = document.getElementById('hList');
-            list.innerHTML = accounts[loggedUser].searches.map(s => `
-                <div style="padding:10px; border-bottom:1px solid #222; cursor:pointer" onclick="restore('${s.r}')">
-                    <i class="fas fa-scroll" style="margin-right:8px; color:var(--main-red)"></i> ${s.q}
-                </div>`).join('');
+        // ADMIN E AUTH (SIMPLIFICADO PARA O EXEMPLO)
+        function checkAdm() { if(document.getElementById('admKey').value === '15092011') alert("Admin OK!"); closeAll(); }
+        
+        function doAuth(type) {
+            const n = document.getElementById('uName').value;
+            const s = document.getElementById('uPass').value;
+            if(type === 'reg') { accounts[n] = {pass: s, searches: []}; localStorage.setItem('reino_contas', JSON.stringify(accounts)); alert("Salvo!"); }
+            else if(accounts[n] && accounts[n].pass === s) { 
+                loggedUser = n; 
+                document.getElementById('userBox').classList.add('active-user');
+                document.getElementById('authInputs').style.display = 'none';
+                document.getElementById('loggedOptions').style.display = 'block';
+                document.getElementById('whoIs').innerText = "Mestre: " + n;
+                closeAll();
+            }
         }
 
-        function restore(txt) { document.getElementById('resultArea').innerText = txt; closeAll(); }
-        function changeTab(name) { document.getElementById('displayTitle').innerText = name; toggleSidebar(); }
+        function doLogout() {
+            loggedUser = null;
+            document.getElementById('userBox').classList.remove('active-user');
+            document.getElementById('authInputs').style.display = 'block';
+            document.getElementById('loggedOptions').style.display = 'none';
+            document.getElementById('resultArea').style.display = 'none';
+            closeAll();
+        }
     </script>
 </body>
 </html>
