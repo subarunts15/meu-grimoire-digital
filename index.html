@@ -188,7 +188,95 @@
             alert("Memória selada!");
             location.reload();
         }
-    </script>
+    </<script>
+    let currentUser = "";
+    const campoPesquisa = document.getElementById('searchBox');
+    const localResposta = document.querySelector('.texto-boas-vindas');
+
+    // --- CONEXÃO COM O ORÁCULO (IA) CORRIGIDA ---
+    async function falarComIA(pergunta) {
+        // 🔑 IMPORTANTE: Você PRECISA colocar sua chave entre as aspas abaixo!
+        const key = 'SUA_CHAVE_AQUI'; 
+        
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${key}`;
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    contents: [{ parts: [{ text: "Responda como um assistente de RPG medieval sombrio e místico: " + pergunta }] }]
+                })
+            });
+
+            const data = await response.json();
+            
+            // Verifica se a resposta da IA chegou direitinho
+            if (data.candidates && data.candidates[0].content.parts[0].text) {
+                return data.candidates[0].content.parts[0].text;
+            } else {
+                return "O Oráculo está em silêncio... (Verifique sua API Key no código).";
+            }
+        } catch (e) {
+            console.error(e);
+            return "Erro na essência digital. A conexão com o plano astral falhou.";
+        }
+    }
+
+    async function executarPesquisa() {
+        const p = campoPesquisa.value;
+        if(!p) return;
+
+        // Abre a visão (Imagens) em nova aba
+        window.open(`https://www.google.com/search?q=${p}&tbm=isch`, '_blank');
+        
+        // Efeito de carregamento no site
+        localResposta.innerText = "Consultando as Estrelas... 🌌";
+        showTab('inicio');
+
+        // Chama a IA e mostra a resposta no título principal
+        const r = await falarComIA(p);
+        localResposta.innerText = r;
+    }
+
+    // Atalho para o ENTER
+    campoPesquisa.addEventListener('keypress', (e) => { if (e.key === 'Enter') executarPesquisa(); });
+
+    // --- NAVEGAÇÃO E ADMIN (MANTIDOS) ---
+    function toggleSidebar() { document.getElementById('sidebar').classList.toggle('active'); document.getElementById('overlay').classList.toggle('active'); }
+    function closeAll() { document.getElementById('sidebar').classList.remove('active'); document.getElementById('overlay').classList.remove('active'); document.getElementById('authModal').style.display='none'; }
+    function showTab(id) { document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active')); document.getElementById(id).classList.add('active'); closeAll(); }
+    function promptMainKey() { if(prompt("Chave Sagrada:") === '15092011') document.getElementById('adminPortal').style.display = 'block'; }
+    function showAuthModal() { document.getElementById('authModal').style.display = 'block'; document.getElementById('overlay').classList.add('active'); }
+    function handleAuth(type) {
+        const u = document.getElementById('adminUser').value;
+        const p = document.getElementById('adminPass').value;
+        if(type === 'register') { localStorage.setItem(`pass_${u}`, p); alert("Cadastrado!"); }
+        else { if(localStorage.getItem(`pass_${u}`) === p) { currentUser = u; openEditor(); } else alert("Erro!"); }
+    }
+    function openEditor() {
+        document.getElementById('currentUserDisplay').innerText = currentUser;
+        document.getElementById('codeEditor').style.display = 'block';
+        const c = document.getElementById('inputsContainer'); c.innerHTML = "";
+        const saved = JSON.parse(localStorage.getItem(`data_${currentUser}`) || "[]");
+        if(saved.length === 0) addRow(''); else saved.forEach(t => addRow(t));
+    }
+    function addRow(v) {
+        const d = document.createElement('div'); d.className = 'code-input-row';
+        d.innerHTML = `<input type="text" value="${v}" placeholder="Digitar código...">`;
+        document.getElementById('inputsContainer').appendChild(d);
+    }
+    function removeRow() {
+        const c = document.getElementById('inputsContainer');
+        if(c.children.length > 1) c.removeChild(c.lastChild);
+    }
+    function saveAndExit() {
+        const data = Array.from(document.querySelectorAll('#inputsContainer input')).map(i => i.value);
+        localStorage.setItem(`data_${currentUser}`, JSON.stringify(data));
+        alert("Memória selada!");
+        location.reload();
+    }
+</script>>
 </body>
 </html>
 <div id="inicio" class="content-section active">
